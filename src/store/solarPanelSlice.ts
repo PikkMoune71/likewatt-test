@@ -26,7 +26,7 @@ const solarPanelsSlice = createSlice({
         state.data[index] = action.payload;
       }
     },
-    deleteSolarPanel(state, action: PayloadAction<string>) {
+    deleteSolarPanel(state, action: PayloadAction<number>) {
       state.data = state.data.filter((panel) => panel.id !== action.payload);
     },
   },

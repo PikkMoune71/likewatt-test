@@ -1,5 +1,5 @@
 export interface SolarPanel {
-  id: string;
+  id: number;
   isActive: boolean;
   tilt: number;
   capacity: number;

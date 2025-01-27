@@ -58,7 +58,7 @@ const WeatherForecast = () => {
   };
 
   return (
-    <div className="p-4 mt-20">
+    <div>
       {loading && <p className="text-lg text-gray-500">Chargement...</p>}
       {error && <p className="text-lg text-red-500">{error}</p>}
       {weatherForecast && (
