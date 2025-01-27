@@ -1,5 +1,5 @@
 "use client";
-import { PanelList } from "./components/PanelList";
+import { PanelList } from "../components/PanelList";
 
 export default function Home() {
   return (
