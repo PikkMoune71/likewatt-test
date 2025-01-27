@@ -1,4 +1,4 @@
-import { getSolarPanels } from "../services/solarService";
+import { getSolarPanels } from "../services/solarPanelsService";
 import axios from "../utils/solarAPI";
 
 // Mock de la méthode axios.get
