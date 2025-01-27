@@ -2,11 +2,12 @@
 import { useEffect, useState } from "react";
 import { getWeatherForecast } from "../services/weatherForecastService";
 import { Card } from "./ui/card";
-import { useWeatherIcon } from "@/composables/useWeatherIcon";
+import { getWeatherIconUrl } from "@/composables/useWeatherIcon";
 import { Forecast } from "@/types/weatherTypes";
 import { getDayName, formatDate } from "@/composables/useFormatDate";
 import { useDispatch, useSelector } from "react-redux";
 import { setWeatherForecast, setLoading } from "@/store/weatherForecastSlice";
+import Image from "next/image";
 
 const WeatherForecast = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const WeatherForecast = () => {
       setError("La géolocalisation n'est pas supportée par ce navigateur.");
       dispatch(setLoading(false));
     }
-  }, []);
+  }, [dispatch]);
 
   const groupForecastsByDate = (
     forecasts: Forecast[] = []
@@ -70,7 +71,7 @@ const WeatherForecast = () => {
               const dailyForecast = groupForecastsByDate(weatherForecast.list)[
                 date
               ][0];
-              const iconUrl = useWeatherIcon(dailyForecast.weather[0].icon);
+              const iconUrl = getWeatherIconUrl(dailyForecast.weather[0].icon);
               const dayName = getDayName(dailyForecast.dt);
               const formattedDate = formatDate(dailyForecast.dt);
 
@@ -80,9 +81,11 @@ const WeatherForecast = () => {
                     <p className="text-xl font-bold mb-2">
                       {dayName} {formattedDate}
                     </p>{" "}
-                    <img
+                    <Image
                       src={iconUrl}
                       alt={dailyForecast.weather[0].description}
+                      width={128}
+                      height={128}
                       className="w-32 h-32 mb-4"
                     />
                     <p className="text-2xl font-semibold">
