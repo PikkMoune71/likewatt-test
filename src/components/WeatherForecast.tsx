@@ -58,14 +58,11 @@ const WeatherForecast = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-3xl font-semibold mb-6">
-        Prévisions météo sur 5 jours
-      </h1>
+    <div className="p-4 mt-20">
       {loading && <p className="text-lg text-gray-500">Chargement...</p>}
       {error && <p className="text-lg text-red-500">{error}</p>}
       {weatherForecast && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {Object.keys(groupForecastsByDate(weatherForecast.list)).map(
             (date, index) => {
               const dailyForecast = groupForecastsByDate(weatherForecast.list)[
@@ -75,12 +72,56 @@ const WeatherForecast = () => {
               const dayName = getDayName(dailyForecast.dt);
               const formattedDate = formatDate(dailyForecast.dt);
 
+              if (index === 0) {
+                return (
+                  <div key={index} className="col-span-full">
+                    <Card
+                      className="p-8 shadow-lg rounded-3xl bg-primary flex flex-col items-center border-2 text-white"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(43deg, rgb(0, 59, 88) 0%, rgb(0, 138, 125) 100%)",
+                      }}
+                    >
+                      <div className="flex items-center justify-between w-full flex-col sm:flex-row">
+                        <div>
+                          <p className="text-5xl font-extrabold mb-4">
+                            {weatherForecast.city?.name},{" "}
+                            {weatherForecast.city?.country}
+                          </p>
+                          <p className="text-2xl font-extrabold mb-4">
+                            {dayName} {formattedDate}
+                          </p>
+
+                          <p className="text-4xl font-bold">
+                            {Math.round(dailyForecast.main.temp)}°C
+                          </p>
+                          <p className=" mt-3 text-lg capitalize">
+                            {dailyForecast.weather[0].description}
+                          </p>
+                          <div className="mt-4 text-sm">
+                            <p>
+                              Min: {Math.round(dailyForecast.main.temp_min)}°C |
+                              Max: {Math.round(dailyForecast.main.temp_max)}°C
+                            </p>
+                          </div>
+                        </div>
+                        <Image
+                          src={iconUrl}
+                          alt={dailyForecast.weather[0].description}
+                          width={300}
+                          height={300}
+                        />
+                      </div>
+                    </Card>
+                  </div>
+                );
+              }
               return (
                 <div key={index}>
-                  <Card className="p-6 shadow-lg rounded-3xl bg-white flex flex-col items-center">
+                  <Card className="p-6 shadow-lg rounded-3xl flex flex-col items-center">
                     <p className="text-xl font-bold mb-2">
                       {dayName} {formattedDate}
-                    </p>{" "}
+                    </p>
                     <Image
                       src={iconUrl}
                       alt={dailyForecast.weather[0].description}
@@ -89,15 +130,15 @@ const WeatherForecast = () => {
                       className="w-32 h-32 mb-4"
                     />
                     <p className="text-2xl font-semibold">
-                      {dailyForecast.main.temp}°C
+                      {Math.round(dailyForecast.main.temp)}°C
                     </p>
                     <p className="text-gray-600 mt-2">
                       {dailyForecast.weather[0].description}
                     </p>
                     <div className="mt-4 text-gray-500 text-sm">
                       <p>
-                        Min: {dailyForecast.main.temp_min}°C | Max:{" "}
-                        {dailyForecast.main.temp_max}°C
+                        Min: {Math.round(dailyForecast.main.temp_min)}°C | Max:{" "}
+                        {Math.round(dailyForecast.main.temp_max)}°C
                       </p>
                     </div>
                   </Card>
