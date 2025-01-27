@@ -1,5 +1,5 @@
 import axios from "../utils/solarAPI";
-import { Panel } from "../types/Panel";
+import { Panel } from "../types/solarPanelTypes";
 
 export const getSolarPanels = async (): Promise<Panel[]> => {
   const response = await axios.get("/");
