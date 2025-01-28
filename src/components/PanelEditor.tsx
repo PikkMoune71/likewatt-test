@@ -183,10 +183,17 @@ export const PanelEditor = ({ selectedPanel }: PanelEditorProps) => {
         </div>
 
         <div className="flex justify-between">
-          <Button onClick={handleDelete} variant="destructive">
+          <Button
+            onClick={handleDelete}
+            variant="destructive"
+            className="delete-button"
+          >
             <Trash2 />
           </Button>
-          <Button type="submit" className="font-bold hover:bg-secondary">
+          <Button
+            type="submit"
+            className="save-button font-bold hover:bg-secondary"
+          >
             Enregistrer les modifications
           </Button>
         </div>

@@ -54,7 +54,7 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
               {panels.map((panel: SolarPanel, index: number) => (
                 <Card
                   key={index}
-                  className={`cursor-pointer bg-white shadow-xl rounded-xl p-5 flex flex-col ${
+                  className={`panel cursor-pointer bg-white shadow-xl rounded-xl p-5 flex flex-col ${
                     selectedPanelId === panel.id
                       ? "bg-primary text-white"
                       : "hover:bg-gray-100"
