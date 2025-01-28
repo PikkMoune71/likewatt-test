@@ -74,9 +74,6 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
                         Modèle inconnu
                       </h2>
                     )}
-                    {panel.id && (
-                      <span className=" text-sm">id: {panel.id}</span>
-                    )}
                   </div>
                   <p>Inclinaison : {panel.tilt}°</p>
                   <p>
