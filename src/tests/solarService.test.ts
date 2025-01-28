@@ -1,5 +1,6 @@
 import { getSolarPanels } from "../services/solarPanelsService";
 import axios from "../utils/solarAPI";
+import { expect } from "@jest/globals";
 
 jest.mock("../utils/solarAPI");
 

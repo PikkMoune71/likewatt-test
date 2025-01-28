@@ -1,11 +1,11 @@
 import { getWeatherForecast } from "../services/weatherForecastService";
 import weatherAPI from "../utils/weatherAPI";
+import { expect } from "@jest/globals";
 
 jest.mock("../utils/weatherAPI");
 
 describe("getWeatherForecast", () => {
   it("devrait retourner les prévisions météorologiques pour les coordonnées données", async () => {
-    // Données simulées de la réponse de l'API
     const mockWeatherData = {
       temperature: 22,
       description: "Ensoleillé",
