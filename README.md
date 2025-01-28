@@ -8,6 +8,7 @@ Réalisation d'un test technique dans le cadre d'un recrutement pour LikeWatt. C
 - Shadcn
 - Redux
 - Jest
+- Cypress (E2E)
 - Zod
 
 ## Installation
@@ -66,7 +67,13 @@ et lancer les tests :
 pnpm test
 ```
 
-Corriger si besoin les erreurs.
+Pour les test E2E avec cypress :
+
+```bash
+pnpm cypress open
+```
+
+Puis choisir E2E testing et le navigateur Google Chrome.
 
 ## Production
 
@@ -109,7 +116,7 @@ Ce composant affiche les données récupérées depuis l'API sous forme d'un tab
 
 #### PanelEditor
 
-Ce composant permet à l'utilisateur d'éditer les données visibles dans le tableau. Chaque ligne du tableau contient plusieurs types d'inputs (texte, numérique, case à cocher, bouton supprimer) permettant de modifier les données et de les mettre à jour.
+Ce composant permet à l'utilisateur d'éditer les données visibles dans le tableau. Chaque ligne du tableau contient plusieurs types d'inputs (texte, numérique, case à cocher, bouton supprimer) permettant de modifier les données et de les mettre à jour. Pour la vérification du formulaire, j'ai utilisé la librairie Zod.
 
 #### WeatherForecast
 
