@@ -1,11 +1,9 @@
-name: Lint et Tests sur Fusion vers Main
+name: Lint, Tests et Déploiement sur Vercel
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-    types:
-      - closed
 
 jobs:
   lint_and_test:
@@ -32,3 +30,17 @@ jobs:
 
       - name: Exécuter les tests
         run: pnpm run test
+
+  deploy:
+    needs: lint_and_test
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installer Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Déployer sur Vercel
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --confirm
