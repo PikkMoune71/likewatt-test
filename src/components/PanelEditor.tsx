@@ -9,13 +9,20 @@ import { Checkbox } from "./ui/checkbox";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { solarPanelSchema } from "@/utils/solarPanelValidation";
+import { useDispatch } from "react-redux";
+import {
+  deleteSolarPanel,
+  updateSolarPanel,
+} from "@/store/slices/solarPanelSlice";
+import { AppDispatch } from "@/store/store";
+import { Trash2 } from "lucide-react";
 
 interface PanelEditorProps {
   selectedPanel: SolarPanel | null;
-  onUpdate: (updatedPanel: SolarPanel) => void;
 }
 
-export const PanelEditor = ({ selectedPanel, onUpdate }: PanelEditorProps) => {
+export const PanelEditor = ({ selectedPanel }: PanelEditorProps) => {
+  const dispatch = useDispatch<AppDispatch>();
   const [formData, setFormData] = useState({
     model: selectedPanel?.model || "",
     tilt: selectedPanel?.tilt || 0,
@@ -24,9 +31,11 @@ export const PanelEditor = ({ selectedPanel, onUpdate }: PanelEditorProps) => {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     if (selectedPanel) {
+      setIsDeleted(false);
       setFormData({
         model: selectedPanel.model || "",
         tilt: selectedPanel.tilt || 0,
@@ -56,9 +65,13 @@ export const PanelEditor = ({ selectedPanel, onUpdate }: PanelEditorProps) => {
       });
 
       if (selectedPanel) {
-        onUpdate({ ...selectedPanel, ...validatedData, id: selectedPanel.id });
+        const panelToUpdate = {
+          ...selectedPanel,
+          ...validatedData,
+        };
+
+        dispatch(updateSolarPanel(panelToUpdate));
       }
-      console.log("Formulaire soumis : ", validatedData);
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: Record<string, string> = {};
@@ -72,6 +85,21 @@ export const PanelEditor = ({ selectedPanel, onUpdate }: PanelEditorProps) => {
     }
   };
 
+  const handleDelete = () => {
+    if (selectedPanel) {
+      dispatch(deleteSolarPanel(selectedPanel.id));
+      setIsDeleted(true);
+    }
+  };
+
+  if (isDeleted) {
+    return (
+      <div className="text-gray-500 text-center">
+        Le panneau a été supprimé.
+      </div>
+    );
+  }
+
   if (!selectedPanel) {
     return (
       <div className="text-gray-500 text-center">
@@ -81,7 +109,7 @@ export const PanelEditor = ({ selectedPanel, onUpdate }: PanelEditorProps) => {
   }
 
   return (
-    <Card className="rounded-xl p-4">
+    <Card className="rounded-xl p-4 h-96" style={{ height: "500px" }}>
       <div className="flex items-center justify-between flex-wrap mb-4">
         <h2 className="text-lg font-bold">
           Modifier le panneau {selectedPanel.model}
@@ -154,9 +182,14 @@ export const PanelEditor = ({ selectedPanel, onUpdate }: PanelEditorProps) => {
           </Label>
         </div>
 
-        <Button type="submit" className="mt-4 font-bold hover:bg-secondary">
-          Enregistrer les modifications
-        </Button>
+        <div className="flex justify-between">
+          <Button onClick={handleDelete} variant="destructive">
+            <Trash2 />
+          </Button>
+          <Button type="submit" className="font-bold hover:bg-secondary">
+            Enregistrer les modifications
+          </Button>
+        </div>
       </form>
     </Card>
   );

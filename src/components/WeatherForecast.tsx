@@ -6,7 +6,10 @@ import { getWeatherIconUrl } from "@/composables/useWeatherIcon";
 import { Forecast } from "@/types/weatherTypes";
 import { getDayName, formatDate } from "@/composables/useFormatDate";
 import { useDispatch, useSelector } from "react-redux";
-import { setWeatherForecast, setLoading } from "@/store/weatherForecastSlice";
+import {
+  setWeatherForecast,
+  setLoading,
+} from "@/store/slices/weatherForecastSlice";
 import Image from "next/image";
 
 const WeatherForecast = () => {

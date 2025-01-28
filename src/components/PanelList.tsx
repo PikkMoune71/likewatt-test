@@ -1,18 +1,19 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSolarPanels } from "../services/solarPanelsService";
-import { setLoading, setSolarPanel } from "../store/solarPanelSlice";
+import { setLoading } from "../store/slices/solarPanelSlice";
 import { SolarPanel } from "../types/solarPanelTypes";
 import { Card } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
+import { fetchSolarPanels } from "@/store/actions/solarPanelsAction";
+import { AppDispatch } from "@/store/store";
 
 interface PanelListProps {
   onSelectPanel: (panel: SolarPanel) => void;
 }
 
 export const PanelList = ({ onSelectPanel }: PanelListProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const panels = useSelector((state: any) => state.panels.data);
   const loading = useSelector((state: any) => state.panels.loading);
   const [selectedPanelId, setSelectedPanelId] = useState<number | null>(null);
@@ -21,8 +22,7 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
     const fetchPanels = async () => {
       dispatch(setLoading(true));
       try {
-        const response = await getSolarPanels();
-        dispatch(setSolarPanel(response));
+        dispatch(fetchSolarPanels());
       } catch (error) {
         console.error("Failed to load panels", error);
       } finally {
@@ -46,15 +46,22 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
         </div>
       ) : (
         <>
-          <ScrollArea className="h-96 w-full rounded-xl border bg-gray-50">
+          <ScrollArea
+            className="w-full rounded-xl border bg-gray-50 p-2"
+            style={{ height: "500px" }}
+          >
             <div className="flex flex-col gap-4">
               {panels.map((panel: SolarPanel, index: number) => (
                 <Card
                   key={index}
-                  className={`cursor-pointer bg-white shadow-md rounded-xl p-5 flex flex-col ${
+                  className={`cursor-pointer bg-white shadow-xl rounded-xl p-5 flex flex-col ${
                     selectedPanelId === panel.id
                       ? "bg-primary text-white"
                       : "hover:bg-gray-100"
+                  } ${
+                    !panel.isActive
+                      ? "border-2 border-secondary"
+                      : "border-2 border-green-600"
                   }`}
                   onClick={() => handleSelectPanel(panel)}
                   style={{
@@ -73,6 +80,15 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
                       >
                         Modèle inconnu
                       </h2>
+                    )}
+                    {!panel.isActive ? (
+                      <span className="text-secondary font-bold uppercase">
+                        Inactif
+                      </span>
+                    ) : (
+                      <span className="text-green-600 font-bold uppercase">
+                        Actif
+                      </span>
                     )}
                   </div>
                   <p>Inclinaison : {panel.tilt}°</p>

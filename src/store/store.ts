@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import panelsReducer from "./solarPanelSlice";
-import weatherForecastReducer from "./weatherForecastSlice";
+import solarPanelSlice from "./slices/solarPanelSlice";
+import weatherForecastReducer from "./slices/weatherForecastSlice";
 
 export const store = configureStore({
   reducer: {
-    panels: panelsReducer,
+    panels: solarPanelSlice,
     weatherForecast: weatherForecastReducer,
   },
 });
