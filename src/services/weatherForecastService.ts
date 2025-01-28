@@ -1,4 +1,4 @@
-import weatherAPI from "@/utils/weatherAPI";
+import weatherAPI from "../utils/weatherAPI";
 
 export const getWeatherForecast = async (lat: string, lon: string) => {
   try {
