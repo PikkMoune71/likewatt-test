@@ -1,9 +1,11 @@
-name: CI Workflow
+name: Lint et Tests sur Fusion vers Main
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
 
 jobs:
   lint_and_test:
@@ -12,21 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Configurer Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "16"
 
-      - name: Install pnpm
+      - name: Installer pnpm
         uses: pnpm/action-setup@v4
         with:
           version: "8"
 
-      - name: Install dependencies
+      - name: Installer les dépendances
         run: pnpm install
 
-      - name: Run lint
+      - name: Exécuter le linting
         run: pnpm run lint
 
-      - name: Run tests
+      - name: Exécuter les tests
         run: pnpm run test
