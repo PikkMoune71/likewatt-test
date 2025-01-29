@@ -23,7 +23,7 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
     const fetchPanels = async () => {
       dispatch(setLoading(true));
       try {
-        dispatch(fetchSolarPanels());
+        await dispatch(fetchSolarPanels());
       } catch (error) {
         console.error("Failed to load panels", error);
       } finally {
@@ -41,16 +41,18 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
 
   return (
     <div>
-      {loading ? (
-        <Loader label="Chargement des panneaux solaires" />
-      ) : (
-        <>
-          <ScrollArea
-            className="w-full rounded-xl border bg-gray-50 p-2"
-            style={{ height: "500px" }}
-          >
-            <div className="flex flex-col gap-4">
-              {panels.map((panel: SolarPanel, index: number) => (
+      <ScrollArea
+        className="w-full rounded-xl border bg-gray-50 p-2"
+        style={{ height: "500px" }}
+      >
+        {loading ? (
+          <div className="flex justify-center items-center h-full">
+            <Loader label="Chargement des panneaux solaires..." />
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {panels.length > 0 ? (
+              panels.map((panel: SolarPanel, index: number) => (
                 <Card
                   key={index}
                   className={`panel cursor-pointer bg-white shadow-xl rounded-xl p-5 flex flex-col ${
@@ -63,10 +65,6 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
                       : "border-2 border-green-600"
                   }`}
                   onClick={() => handleSelectPanel(panel)}
-                  style={{
-                    cursor:
-                      selectedPanelId === panel.id ? "pointer" : "default",
-                  }}
                 >
                   <div className="flex justify-between items-center flex-wrap">
                     {panel.model ? (
@@ -100,11 +98,15 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
                     )}
                   </p>
                 </Card>
-              ))}
-            </div>
-          </ScrollArea>
-        </>
-      )}
+              ))
+            ) : (
+              <p className="text-center text-gray-500">
+                Aucun panneau disponible.
+              </p>
+            )}
+          </div>
+        )}
+      </ScrollArea>
     </div>
   );
 };
