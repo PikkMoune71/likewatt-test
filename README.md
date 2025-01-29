@@ -1,6 +1,6 @@
 # Test Technique chez LikeWatt
 
-Réalisation d'un test technique dans le cadre d'un recrutement pour LikeWatt. Ce Test à tester réaliser avec les technologies suivantes :
+Réalisation d’un test technique dans le cadre du processus de recrutement chez LikeWatt. Ce test a été développé en utilisant les technologies suivantes :
 
 - Next.js
 - Typescript
@@ -35,7 +35,7 @@ Dans le .env à la racine du projet et mettre les variables importantes :
 
 ```bash
   NEXT_PUBLIC_LIKEWATT_API_URL=url_likewatt_test
-  NEXT_PUBLIC_OPENWEATHER_API_URL=url_api_openWeather
+  NEXT_PUBLIC_OPENWEATHER_API_URL=https://api.openweathermap.org/data/2.5/forecast
   NEXT_PUBLIC_OPENWEATHER_API_KEY=api_key_openweather
 ```
 
