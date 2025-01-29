@@ -1,19 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getWeatherForecast } from "../services/weatherForecastService";
 import { Card } from "./ui/card";
 import { getWeatherIconUrl } from "@/composables/useWeatherIcon";
 import { Forecast } from "@/types/weatherTypes";
 import { getDayName, formatDate } from "@/composables/useFormatDate";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setWeatherForecast,
-  setLoading,
-} from "@/store/slices/weatherForecastSlice";
 import Image from "next/image";
+import { AppDispatch } from "@/store/store";
+import { fetchWeatherForecast } from "@/store/actions/weatherForecastAction";
+import Loader from "./Loader";
 
 const WeatherForecast = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const weatherForecast = useSelector(
     (state: any) => state.weatherForecast.data
   );
@@ -21,56 +19,35 @@ const WeatherForecast = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        const { latitude, longitude } = position.coords;
-        dispatch(setLoading(true));
-        try {
-          const weather = await getWeatherForecast(
-            latitude.toString(),
-            longitude.toString()
-          );
-
-          dispatch(setWeatherForecast(weather));
-        } catch (error) {
-          setError("Erreur lors de la récupération des prévisions météo");
-        } finally {
-          dispatch(setLoading(false));
-        }
-      });
-    } else {
-      setError("La géolocalisation n'est pas supportée par ce navigateur.");
-      dispatch(setLoading(false));
-    }
+    const fetchWeather = async () => {
+      try {
+        dispatch(fetchWeatherForecast());
+      } catch (error) {
+        setError("Failed to load weather forecast");
+      }
+    };
+    fetchWeather();
   }, [dispatch]);
 
   const groupForecastsByDate = (
     forecasts: Forecast[] = []
   ): { [key: string]: Forecast[] } => {
-    const groupedData: { [key: string]: Forecast[] } = {};
-
-    forecasts.forEach((forecast) => {
+    return forecasts.reduce((acc, forecast) => {
       const date = new Date(forecast.dt * 1000).toLocaleDateString();
-      if (!groupedData[date]) {
-        groupedData[date] = [];
-      }
-      groupedData[date].push(forecast);
-    });
-
-    return groupedData;
+      acc[date] = acc[date] ? [...acc[date], forecast] : [forecast];
+      return acc;
+    }, {} as { [key: string]: Forecast[] });
   };
 
   return (
     <div>
-      {loading && <p className="text-lg text-gray-500">Chargement...</p>}
+      {loading && <Loader label="Chargement de la météo.." />}
       {error && <p className="text-lg text-red-500">{error}</p>}
       {weatherForecast && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {Object.keys(groupForecastsByDate(weatherForecast.list)).map(
-            (date, index) => {
-              const dailyForecast = groupForecastsByDate(weatherForecast.list)[
-                date
-              ][0];
+          {Object.entries(groupForecastsByDate(weatherForecast.list)).map(
+            ([date, dailyForecasts], index) => {
+              const dailyForecast = dailyForecasts[0];
               const iconUrl = getWeatherIconUrl(dailyForecast.weather[0].icon);
               const dayName = getDayName(dailyForecast.dt);
               const formattedDate = formatDate(dailyForecast.dt);
@@ -94,11 +71,10 @@ const WeatherForecast = () => {
                           <p className="text-2xl font-extrabold mb-4">
                             {dayName} {formattedDate}
                           </p>
-
                           <p className="text-4xl font-bold">
                             {Math.round(dailyForecast.main.temp)}°C
                           </p>
-                          <p className=" mt-3 text-lg capitalize">
+                          <p className="mt-3 text-lg capitalize">
                             {dailyForecast.weather[0].description}
                           </p>
                           <div className="mt-4 text-sm">

@@ -7,6 +7,7 @@ import { Card } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
 import { fetchSolarPanels } from "@/store/actions/solarPanelsAction";
 import { AppDispatch } from "@/store/store";
+import Loader from "./Loader";
 
 interface PanelListProps {
   onSelectPanel: (panel: SolarPanel) => void;
@@ -41,9 +42,7 @@ export const PanelList = ({ onSelectPanel }: PanelListProps) => {
   return (
     <div>
       {loading ? (
-        <div className="text-center">
-          <p>Chargement...</p>
-        </div>
+        <Loader label="Chargement des panneaux solaires" />
       ) : (
         <>
           <ScrollArea

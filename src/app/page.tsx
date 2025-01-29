@@ -4,6 +4,7 @@ import { PanelList } from "../components/PanelList";
 import WeatherForecast from "@/components/WeatherForecast";
 import { SolarPanel } from "@/types/solarPanelTypes";
 import { PanelEditor } from "@/components/PanelEditor";
+import Loader from "@/components/Loader";
 
 export default function Home() {
   const [selectedPanel, setSelectedPanel] = useState<SolarPanel | null>(null);
