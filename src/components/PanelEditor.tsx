@@ -114,7 +114,11 @@ export const PanelEditor = ({ selectedPanel }: PanelEditorProps) => {
         <h2 className="text-lg font-bold">
           Modifier le panneau {selectedPanel.model}
         </h2>
-        <span className="text-sm text-gray-500">ID: {selectedPanel.id}</span>
+        {selectedPanel.id ? (
+          <span className="text-sm text-gray-500">ID: {selectedPanel.id}</span>
+        ) : (
+          <span className="text-sm text-gray-500">ID: Inconnu</span>
+        )}
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
