@@ -27,8 +27,6 @@ export const fetchWeatherForecast = createAsyncThunk<
       latitude.toString(),
       longitude.toString()
     );
-
-    console.log("Weather Forecast:", weather);
     return weather;
   } catch (error) {
     return rejectWithValue(
