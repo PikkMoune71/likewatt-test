@@ -8,6 +8,5 @@ export const getSolarPanels = async (): Promise<SolarPanel[]> => {
   if (Array.isArray(panels)) {
     return panels;
   }
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   return panels;
 };

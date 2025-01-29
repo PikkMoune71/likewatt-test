@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../../utils/solarAPI";
 import { SolarPanel } from "../../types/solarPanelTypes";
 import { getSolarPanels } from "@/services/solarPanelsService";
 
