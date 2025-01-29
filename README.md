@@ -88,6 +88,9 @@ pnpm build
 
 Cette mini application permet de visualiser et modifier des données de panneaux solaires à travers deux sections distinctes dans l'interface utilisateur. Sur la gauche, un tableau de données est affiché de manière non-éditable, tandis que sur la droite, un formulaire permet de modifier les valeurs affichées. En plus de ces tableaux, une fonctionnalité météo est ajoutée pour afficher les prévisions météorologiques sur 5 jours basées sur la localisation de l'utilisateur à l'aide de l'API OpenWeather.
 
+Voici un aperçu des wireframes que j'ai réalisés sur Figma, afin d'obtenir une première vision de l'application :  
+[Accédez au lien Figma ici](https://www.figma.com/design/rgmRAdxtR5gQUX3JjffhVm/Test-Technique-LikeWatt?node-id=0-1&t=3KMv4JUvSEKkZ5Kb-1).
+
 ### Fonctionnalités
 
 #### Visualisation des données
