@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { AppDispatch } from "@/store/store";
 import { fetchWeatherForecast } from "@/store/actions/weatherForecastAction";
+import Loader from "./Loader";
 
 const WeatherForecast = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,7 +41,7 @@ const WeatherForecast = () => {
 
   return (
     <div>
-      {loading && <p className="text-lg text-gray-500">Chargement...</p>}
+      {loading && <Loader label="Chargement de la météo.." />}
       {error && <p className="text-lg text-red-500">{error}</p>}
       {weatherForecast && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
