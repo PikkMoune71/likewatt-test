@@ -6,6 +6,7 @@ Réalisation d’un test technique dans le cadre du processus de recrutement che
 - Typescript
 - TailwindCSS
 - Shadcn
+- Framer Motion (Pour le Loader)
 - Redux
 - Jest
 - Cypress (E2E)
